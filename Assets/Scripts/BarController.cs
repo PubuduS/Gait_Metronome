@@ -1,11 +1,12 @@
 using System;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// This class controll the moving bar animation cycle.
 /// </summary>
-public class BarController : MonoBehaviour
+public class BarController : SingletonMonobehaviour<BarController>
 {
     /// Reference to the main Title bar on the panel.
     [SerializeField] private TextMeshPro m_TitleLbl = null;
@@ -31,8 +32,11 @@ public class BarController : MonoBehaviour
     /// At the end of the travel, it will be reset to 0.
     private int m_NoiseIndex = 0;
 
-    /// Use to apply previous noise after changing idle to moving.
-    private int m_Counter = 1;
+    /// Stores the animation lengths.
+    private List<float> m_AnimLengthList = null;
+
+    /// Accessor for animation length list. (Read Only)
+    public List<float> AnimLengthList { get => m_AnimLengthList; }
 
     /// <summary>
     /// Initialized values.
@@ -41,8 +45,9 @@ public class BarController : MonoBehaviour
     {
         m_Animator = this.GetComponent<Animator>();
         AnimationClip[] clips = m_Animator.runtimeAnimatorController.animationClips;
+        m_AnimLengthList = new List<float>();
 
-        foreach( AnimationClip clip in clips )
+        foreach ( AnimationClip clip in clips )
         {
             switch( clip.name )
             {
@@ -65,7 +70,12 @@ public class BarController : MonoBehaviour
         if( m_NoiseIndex >= NoiseController.Instance.BaseNoise.NoiseValueList.Count )
         {
             m_NoiseIndex = 0;
-        }                
+        }
+        
+        if( ( NoiseController.Instance.BaseNoise.NoiseAppliedFlag == false ) && ( m_AnimLengthList.Count > 0 ) )
+        {
+            m_AnimLengthList.Clear();
+        }
     }
 
     /// <summary>
@@ -79,8 +89,6 @@ public class BarController : MonoBehaviour
 
         if( String.Equals( m_NoiseLbl.text, "Noise: Pink") || ( String.Equals( m_NoiseLbl.text, "Noise: Random") ) )
         {
-            NoiseController.Instance.BaseNoise.NoiseValueList[10] = 10f;
-            NoiseController.Instance.BaseNoise.NoiseValueList[20] = 20f;
             noiseValue = Mathf.Abs( NoiseController.Instance.BaseNoise.NoiseValueList[m_NoiseIndex] );
         }
         else if( String.Equals( m_NoiseLbl.text, "Noise: ISO") )
@@ -97,8 +105,10 @@ public class BarController : MonoBehaviour
         desiredSpeed = ( m_AnimLength / noiseValue );       
         m_Animator.speed = desiredSpeed;
 
-        //float len = m_Animator.GetCurrentAnimatorStateInfo(0).length;
-        //Debug.Log("Number: " + noiseValue + " Time: " + Time.realtimeSinceStartup + " Len: " + len);
+        m_AnimLengthList.Add( m_Animator.GetCurrentAnimatorStateInfo(0).length );
+
+        // float len = m_Animator.GetCurrentAnimatorStateInfo(0).length;
+        // Debug.Log("Number: " + noiseValue + " Time: " + Time.realtimeSinceStartup + " Len: " + len);
     }
 
     /// <summary>
@@ -125,22 +135,6 @@ public class BarController : MonoBehaviour
         if( !String.Equals( m_NoiseLbl, "ISO" ) && ( m_IsAnimationLocked == false) && NoiseController.Instance.BaseNoise.NoiseAppliedFlag )
         {            
             m_NoiseIndex++;            
-        }
-        else
-        {
-            m_Counter++;
-
-            // Prevent first element from being skipped.
-            if( m_NoiseIndex == 0 && m_Counter == 2 )
-            {
-                m_Counter = 1;                
-            }
-
-            // Prevent element from being skipped after transtion from idle to moving.
-            if( m_Counter == 3 )
-            {
-                m_Counter = 1;                
-            }
         }
     }
 }

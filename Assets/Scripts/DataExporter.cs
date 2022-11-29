@@ -16,10 +16,23 @@ public class DataExporter : SingletonMonobehaviour<DataExporter>
     // Show the last file generated
     [SerializeField] private TextMeshPro m_LastFileLabel;
     [SerializeField] private TextMeshPro m_SignalFileLabel;
+    [SerializeField] private TextMeshPro m_AnimLenLabel;
 
     /// Check Coroutine is running or not.
     /// This is to prevent calling for multiple coroutines.
     private bool m_CoroutineIsRunning = false;
+
+    /// Directory location where files stored.
+    /// C:\Users\yourname\AppData\LocalLow\DefaultCompany\_BarMetronome
+    private string m_DirectoryLocation = null;
+
+    /// <summary>
+    /// Initialize persistentDataPath
+    /// </summary>
+    private void Start()
+    {
+        m_DirectoryLocation = Application.persistentDataPath + "/";
+    }
 
     /// <summary>
     /// This function start a Coroutine to export data
@@ -41,38 +54,35 @@ public class DataExporter : SingletonMonobehaviour<DataExporter>
     /// This function exports signal data and left/right heel strike time stamps.
     /// </summary>
     IEnumerator ExportFiles()
-    {
-       
+    {       
         m_CoroutineIsRunning = true;
 
-        DateTime dob = DateTime.Now;
-        string timeStamp = dob.ToString("MM_dd_yyyyTHH_mm_ss");
-        string directoryLocation = Application.persistentDataPath + "/";
-
-        ExportNoiseFiles(directoryLocation, timeStamp);
+        ExportGenericFiles( "Noise", m_SignalFileLabel, NoiseController.Instance.BaseNoise.NoiseValueList );
+        ExportGenericFiles( "AnimationLength", m_AnimLenLabel, BarController.Instance.AnimLengthList );
 
         m_CoroutineIsRunning = false;
         yield return null;
     }
 
     /// <summary>
-    /// Export the signal data currently being used in the walking trials.    
+    /// Export the data currently being used in the walking trials.    
     /// </summary>
-    private async void ExportNoiseFiles( string path, string timeStamp )
+    private async void ExportGenericFiles( string name, TextMeshPro label, List<float> valList )
     {
         DateTime dob = DateTime.Now;
+        string timeStamp = dob.ToString("MM_dd_yyyyTHH_mm_ss");
         string type = NoiseController.Instance.BaseNoise.CurrentPattern.text.Split().Last();
-        string postfix = type + "Noise" + "_" + timeStamp + ".txt";
-        string fullPath = Path.Combine( path, postfix );
-        
+        string postfix = type + name + "_" + timeStamp + ".txt";
+        string fullPath = Path.Combine( m_DirectoryLocation, postfix );
 
-        if ( type.Equals("Pink") || type.Equals("Random") )
+
+        if( type.Equals("Pink") || type.Equals("Random") )
         {
-            foreach( float freq in NoiseController.Instance.BaseNoise.NoiseValueList )
+            foreach( float value in valList )
             {
-                await WriteToFile( fullPath, freq );
+                await WriteToFile( fullPath, value );
             }
-        }      
+        }
         else if( type.Equals("ISO") )
         {
             await WriteToFile( fullPath, NoiseController.Instance.BaseNoise.PreferredWalkingSpeed );
@@ -82,7 +92,7 @@ public class DataExporter : SingletonMonobehaviour<DataExporter>
             await WriteToFile( fullPath, -9999 );
         }
 
-        CheckFileExists( fullPath, m_SignalFileLabel );
+        CheckFileExists( fullPath, label );
     }
 
     /// <summary>
