@@ -249,7 +249,7 @@ public class PinkNoise : BaseNoiseClass
     /// </summary>
     /// <param name="X">Spectrum complex values</param>
     /// <returns>Signal samples in time domain</returns>
-    public void IDFT( ref Complex[] X )
+    private void IDFT( ref Complex[] X )
     {
         // Number of spectrum elements
         int N = X.Length;
@@ -281,7 +281,7 @@ public class PinkNoise : BaseNoiseClass
     /// </summary>
     /// <param name="X">Spectrum complex values</param>
     /// <returns>Return only the real part of the number /returns>
-    public void IDFTReal( ref Complex[] X )
+    private void IDFTReal( ref Complex[] X )
     {
         int N = X.Length; // Number of spectrum elements        
 

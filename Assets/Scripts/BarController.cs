@@ -105,8 +105,12 @@ public class BarController : SingletonMonobehaviour<BarController>
         desiredSpeed = ( m_AnimLength / noiseValue );       
         m_Animator.speed = desiredSpeed;
 
-        m_AnimLengthList.Add( m_Animator.GetCurrentAnimatorStateInfo(0).length );
-
+        // No point adding ISO to the list since it is a constant
+        if( String.Equals( m_NoiseLbl.text, "Noise: Pink" ) || ( String.Equals(m_NoiseLbl.text, "Noise: Random" ) ) )
+        {
+            m_AnimLengthList.Add( m_Animator.GetCurrentAnimatorStateInfo(0).length );
+        }
+        
         // float len = m_Animator.GetCurrentAnimatorStateInfo(0).length;
         // Debug.Log("Number: " + noiseValue + " Time: " + Time.realtimeSinceStartup + " Len: " + len);
     }
