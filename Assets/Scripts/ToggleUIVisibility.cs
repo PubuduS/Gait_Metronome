@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Defines the functionality of the hand-bound UI.
 /// </summary>
-public class ToggleUIVisibility : MonoBehaviour
+public class ToggleUIVisibility : SingletonMonobehaviour<ToggleUIVisibility>
 {
 
     /// Reference to the parent object of Noise UI
@@ -11,6 +11,9 @@ public class ToggleUIVisibility : MonoBehaviour
 
     /// Reference to the parent object of Noise Data Panel
     [SerializeField] private GameObject m_NoiseDataPanel;
+
+    /// Reference to the parent object of Bar UI
+    [SerializeField] private GameObject m_BarUI;
 
     /// Toggle the diagnostic system
     private bool m_ToggleDiagnosticFlag = false;
@@ -31,6 +34,14 @@ public class ToggleUIVisibility : MonoBehaviour
         bool isObjectActive = m_NoiseDataPanel.activeSelf;
         isObjectActive = !isObjectActive;
         m_NoiseDataPanel.SetActive(isObjectActive);
+    }
+
+    /// <summary>
+    /// Toggle moving bar UI.
+    /// </summary>
+    public void ToggleBarUI( bool isObjectActive )
+    {
+        m_BarUI.SetActive( isObjectActive );
     }
 
     /// <summary>

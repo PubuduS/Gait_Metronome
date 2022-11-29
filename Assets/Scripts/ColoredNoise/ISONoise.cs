@@ -38,6 +38,7 @@ public class ISONoise : BaseNoiseClass
         CalculateNoise();
         bool noiseAppliedState = ( m_PreferredWalkingSpeed > m_DefaultISOWalkSpeed ) ? true : false;
         SetReadyMessage( noiseAppliedState, "ISO" );
+        ToggleUIVisibility.Instance.ToggleBarUI( true );
     }
 
     /// <summary>

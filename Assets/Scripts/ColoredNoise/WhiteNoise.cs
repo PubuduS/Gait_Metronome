@@ -24,6 +24,7 @@ public class WhiteNoise : BaseNoiseClass
         CalculateNoise();
         bool noiseAppliedState = ( m_NoiseValueList.Count >= m_SampleSize ) ? true : false;
         SetReadyMessage( noiseAppliedState, "Random" );
+        ToggleUIVisibility.Instance.ToggleBarUI( true );
     }
 
     /// <summary>

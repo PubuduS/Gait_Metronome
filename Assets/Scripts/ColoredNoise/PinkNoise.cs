@@ -83,6 +83,7 @@ public class PinkNoise : BaseNoiseClass
         CalculateNoise();
         bool noiseAppliedState = ( m_NoiseValueList.Count >= ( m_SampleSize2X - 2 ) ) ? true : false;
         SetReadyMessage( noiseAppliedState, "Pink" );
+        ToggleUIVisibility.Instance.ToggleBarUI( true );
     }
 
     /// <summary>

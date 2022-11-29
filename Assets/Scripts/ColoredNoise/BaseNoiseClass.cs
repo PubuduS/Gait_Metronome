@@ -148,6 +148,8 @@ public abstract class BaseNoiseClass : MonoBehaviour
         {
             m_NoiseValueList.Clear();
         }
+
+        ToggleUIVisibility.Instance.ToggleBarUI( false );
     }
 
     /// <summary>
