@@ -88,7 +88,7 @@ public class BarController : SingletonMonobehaviour<BarController>
         float desiredSpeed = m_DefaultAnimationSpeed;
 
         if( String.Equals( m_NoiseLbl.text, "Noise: Pink") || ( String.Equals( m_NoiseLbl.text, "Noise: Random") ) )
-        {
+        {            
             noiseValue = Mathf.Abs( NoiseController.Instance.BaseNoise.NoiseValueList[m_NoiseIndex] );
         }
         else if( String.Equals( m_NoiseLbl.text, "Noise: ISO") )
