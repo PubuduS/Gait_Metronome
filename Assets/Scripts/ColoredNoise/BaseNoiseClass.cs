@@ -1,4 +1,5 @@
 using Microsoft.MixedReality.Toolkit.UI;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -29,6 +30,9 @@ public abstract class BaseNoiseClass : MonoBehaviour
     /// Hold the standard distribution period.
     protected float m_SDPeriod = 2.0f;
 
+    /// Used this as a multiplier to calculate pink noise
+    protected float m_Multiplier = 0.0f;
+
     /// Defines how many samples we want.
     protected int m_SampleSize = 5000;
 
@@ -47,6 +51,9 @@ public abstract class BaseNoiseClass : MonoBehaviour
     /// This list stores the calculated colored noise values.
     protected List<float> m_NoiseValueList = null;
 
+    /// A List to hold Normal(Gaussian) distribution.
+    protected List<float> m_StandardNoiseDistribution = null;
+
     /// We get the value from these text labels.
     protected TextMeshPro m_MeanPeriodLabel;
     protected TextMeshPro m_SDPeriodLabel;
@@ -64,6 +71,9 @@ public abstract class BaseNoiseClass : MonoBehaviour
 
     /// Property to get colored noise distribution (Read-Only)
     public List<float> NoiseValueList { get => m_NoiseValueList; }
+
+    /// Property to get standard normal(Gaussian) distribution (Read-Only)
+    public List<float> NoiseDistribution { get => m_StandardNoiseDistribution; }
 
     /// Property to get noise applied flag (Read-Only)
     public bool NoiseAppliedFlag { get => m_NoiseAppliedFlag; }
@@ -84,7 +94,8 @@ public abstract class BaseNoiseClass : MonoBehaviour
     {
         m_NoiseDataPanel = GameObject.FindGameObjectWithTag("NoiseDataPanel");
         m_GaussianDistribution = new GaussianDistribution();
-        m_NoiseValueList = new List<float>();       
+        m_NoiseValueList = new List<float>();
+        m_StandardNoiseDistribution = new List<float>();
         InitializeNoiseDataPanelObjects();
         SetUITextVisibility();
     }
@@ -113,10 +124,56 @@ public abstract class BaseNoiseClass : MonoBehaviour
     }
 
     /// <summary>
+    /// This function calculate the sample Standard Deviation value and return it.
+    /// </summary>
+    /// <param name="baseNoiseListRef"></param>
+    /// <returns>Sample Standard Deviation</returns>
+    protected double GetStandardDeviation( ref List<float> baseNoiseListRef )
+    {
+        double ret = 0;
+        int count = baseNoiseListRef.Count();
+
+        if( count > 1 )
+        {
+            //Compute the Average
+            double avg = baseNoiseListRef.Average();
+
+            //Perform the Sum of (value-avg)^2
+            double sum = baseNoiseListRef.Sum( d => (d - avg) * (d - avg) );
+
+            //Put it all together
+            ret = Math.Sqrt( sum / ( count - 1 ) );
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// This converts Z values to Z Score values.
+    /// May get off a small amount due to round error.
+    /// </summary>
+    /// <param name="baseNoiseListRef"></param>
+    protected void ConvertToZScore( ref List<float> baseNoiseListRef )
+    {
+        double mean = baseNoiseListRef.Average();
+        double sd = GetStandardDeviation( ref baseNoiseListRef );
+
+        for( int i = 0; i < baseNoiseListRef.Count; i++ )
+        {
+            float val = (float)( ( baseNoiseListRef[i] - mean ) / sd );
+            m_StandardNoiseDistribution[i] = val;
+        }
+    }
+
+    /// <summary>
     /// Calculate the colored noise
     /// </summary>
     protected abstract void CalculateNoise();
 
+    /// <summary>
+    /// Calculate the base colored noise
+    /// </summary>
+    protected abstract void CalculateBaseNoise();
 
     /// <summary>
     /// Calculate the noise according to the user input.
@@ -149,7 +206,15 @@ public abstract class BaseNoiseClass : MonoBehaviour
             m_NoiseValueList.Clear();
         }
 
+        GameObject barUI = GameObject.FindGameObjectWithTag("BarUI");
+         
+        if( barUI != null )
+        {
+            barUI.GetComponentInChildren<BarController>().ResetAnimationLengthList();
+        }
+
         ToggleUIVisibility.Instance.ToggleBarUI( false );
+
     }
 
     /// <summary>

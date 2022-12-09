@@ -1,5 +1,5 @@
 /// <summary>
-/// 
+/// This class initiate appopriate noise objects.
 /// </summary>
 public class NoiseController : SingletonMonobehaviour<NoiseController>
 {
@@ -39,7 +39,7 @@ public class NoiseController : SingletonMonobehaviour<NoiseController>
     /// </summary>
     public void SetNewDistribution()
     {
-        if ( string.Equals( BaseNoise.CurrentPattern.text, "Noise: Pink" ) )
+        if( ( string.Equals( BaseNoise.CurrentPattern.text, "Noise: Pink" ) ) || ( string.Equals( BaseNoise.CurrentPattern.text, "Noise: Random" ) ) )
         {
             BaseNoise.GenerateNewDistribution();
         }

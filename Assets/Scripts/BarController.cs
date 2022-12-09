@@ -71,11 +71,6 @@ public class BarController : SingletonMonobehaviour<BarController>
         {
             m_NoiseIndex = 0;
         }
-        
-        if( ( NoiseController.Instance.BaseNoise.NoiseAppliedFlag == false ) && ( m_AnimLengthList.Count > 0 ) )
-        {
-            m_AnimLengthList.Clear();
-        }
     }
 
     /// <summary>
@@ -140,5 +135,14 @@ public class BarController : SingletonMonobehaviour<BarController>
         {            
             m_NoiseIndex++;            
         }
+    }
+
+    /// <summary>
+    /// Called after user click cancel pattern button in Noise UI.
+    /// </summary>
+    public void ResetAnimationLengthList()
+    {
+        m_AnimLengthList.Clear();
+        m_NoiseIndex = 0;
     }
 }
