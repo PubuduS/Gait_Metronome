@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.UI;
 
 /// <summary>
 /// This class controll the moving bar animation cycle.
@@ -31,6 +32,12 @@ public class BarController : SingletonMonobehaviour<BarController>
     /// Noise index for traveling the noise list.
     /// At the end of the travel, it will be reset to 0.
     private int m_NoiseIndex = 0;
+
+    /// UI for conformation dialogue.
+    [SerializeField] private GameObject m_DialogPrefabMedium = null;
+
+    /// Flag to controll animation cycle.
+    private bool m_EndAnimation = false;
 
     /// Stores the animation lengths.
     private List<float> m_AnimLengthList = null;
@@ -67,9 +74,12 @@ public class BarController : SingletonMonobehaviour<BarController>
     /// </summary>
     private void Update()
     {
-        if( m_NoiseIndex >= NoiseController.Instance.BaseNoise.NoiseValueList.Count )
+        if( m_NoiseIndex >= NoiseController.Instance.BaseNoise.NoiseValueList.Count && m_EndAnimation == false )
         {
-            m_NoiseIndex = 0;
+            //m_NoiseIndex = 0;
+            m_Animator.enabled = false;
+            OpenConfirmationDialogMedium();
+            m_EndAnimation = true;
         }
     }
 
@@ -100,11 +110,7 @@ public class BarController : SingletonMonobehaviour<BarController>
         desiredSpeed = ( m_AnimLength / noiseValue );       
         m_Animator.speed = desiredSpeed;
 
-        // No point adding ISO to the list since it is a constant
-        if( String.Equals( m_NoiseLbl.text, "Noise: Pink" ) || ( String.Equals(m_NoiseLbl.text, "Noise: Random" ) ) )
-        {
-            m_AnimLengthList.Add( m_Animator.GetCurrentAnimatorStateInfo(0).length );
-        }
+        m_AnimLengthList.Add( m_Animator.GetCurrentAnimatorStateInfo(0).length );  
         
         // float len = m_Animator.GetCurrentAnimatorStateInfo(0).length;
         // Debug.Log("Number: " + noiseValue + " Time: " + Time.realtimeSinceStartup + " Len: " + len);
@@ -144,5 +150,16 @@ public class BarController : SingletonMonobehaviour<BarController>
     {
         m_AnimLengthList.Clear();
         m_NoiseIndex = 0;
+        m_Animator.enabled = true;
+        m_EndAnimation = false;
+    }
+
+    /// <summary>
+    /// Opens confirmation dialog example
+    /// </summary>
+    public void OpenConfirmationDialogMedium()
+    {
+        Dialog.Open( m_DialogPrefabMedium, DialogButtonType.OK, "Confirmation Dialog, Medium, Near", "Times up! " +
+                     "You covered the required distance.", true);
     }
 }

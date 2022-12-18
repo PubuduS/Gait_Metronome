@@ -78,14 +78,30 @@ public class DataExporter : SingletonMonobehaviour<DataExporter>
 
         if( type.Equals("Pink") || type.Equals("Random") )
         {
-            foreach( float value in valList )
+            if( valList.Any() )
             {
-                await WriteToFile( fullPath, value );
+                foreach( float value in valList )
+                {
+                    await WriteToFile( fullPath, value );
+                }
             }
         }
         else if( type.Equals("ISO") )
         {
-            await WriteToFile( fullPath, NoiseController.Instance.BaseNoise.PreferredWalkingSpeed );
+            if( name.Equals("Noise") )
+            {
+                await WriteToFile( fullPath, NoiseController.Instance.BaseNoise.PreferredWalkingSpeed );
+            }
+            else
+            {
+                if( valList.Any() )
+                {
+                    foreach( float value in valList )
+                    {
+                        await WriteToFile( fullPath, value );
+                    }
+                }
+            }            
         }
         else
         {
