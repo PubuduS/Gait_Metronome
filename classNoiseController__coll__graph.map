@@ -1,0 +1,8 @@
+<map id="NoiseController" name="NoiseController">
+<area shape="rect" id="node1" title="This class initiate appopriate noise objects." alt="" coords="11,1121,211,1235"/>
+<area shape="rect" id="node2" href="$classSingletonMonobehaviour.html" title=" " alt="" coords="5,652,173,751"/>
+<area shape="rect" id="node3" href="$classBaseNoiseClass.html" title=" " alt="" coords="198,344,421,1059"/>
+<area shape="rect" id="node4" title=" " alt="" coords="199,168,315,208"/>
+<area shape="rect" id="node5" href="$classGaussianDistribution.html" title="Takes two uniformly distributed deviates within the unit circle, and transforms them into two indepen..." alt="" coords="339,95,503,281"/>
+<area shape="rect" id="node6" title=" " alt="" coords="359,5,483,45"/>
+</map>

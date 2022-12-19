@@ -1,0 +1,4 @@
+<map id="BarController.MoveBar" name="BarController.MoveBar">
+<area shape="rect" id="node1" title="Expand and Shrink the time to complete one moving cycle according to the colored noise values...." alt="" coords="272,5,424,31"/>
+<area shape="rect" id="node2" href="$classBarController.html#a124097c80cb1f00224a6fdeb19eb10d8" title="Lockdown the animation until it played out. Animation will unlock after it complete the current loop...." alt="" coords="5,5,224,31"/>
+</map>

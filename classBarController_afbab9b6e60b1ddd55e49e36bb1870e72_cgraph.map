@@ -1,0 +1,4 @@
+<map id="BarController.Update" name="BarController.Update">
+<area shape="rect" id="node1" title="Reset the noise index to 0 if it go beyond size of the noise values. This means it will start with be..." alt="" coords="5,13,148,38"/>
+<area shape="rect" id="node2" href="$classBarController.html#af477ee348951ade92e46c88b565beb91" title="Opens confirmation dialog example" alt="" coords="196,5,399,45"/>
+</map>
