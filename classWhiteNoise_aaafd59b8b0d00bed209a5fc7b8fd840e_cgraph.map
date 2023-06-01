@@ -1,0 +1,5 @@
+<map id="WhiteNoise.CalculateNoise" name="WhiteNoise.CalculateNoise">
+<area shape="rect" id="node1" title="Scale the base Random/White noise." alt="" coords="5,13,185,38"/>
+<area shape="rect" id="node2" href="$classBaseNoiseClass.html#a90ac43b100d3a60a89195519980a3a97" title="This converts Z values to Z Score values. May get off a small amount due to round error." alt="" coords="233,5,416,45"/>
+<area shape="rect" id="node3" href="$classBaseNoiseClass.html#a22f85e0538810c7d6d04efb1586d97a1" title="This function calculate the sample Standard Deviation value and return it." alt="" coords="464,5,659,45"/>
+</map>

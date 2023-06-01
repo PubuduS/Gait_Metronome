@@ -1,0 +1,7 @@
+<map id="WhiteNoise" name="WhiteNoise">
+<area shape="rect" id="node1" title="Calculate the Random Noise" alt="" coords="15,1108,219,1251"/>
+<area shape="rect" id="node2" href="$classBaseNoiseClass.html" title=" " alt="" coords="5,344,228,1059"/>
+<area shape="rect" id="node3" title=" " alt="" coords="7,168,123,208"/>
+<area shape="rect" id="node4" href="$classGaussianDistribution.html" title="Takes two uniformly distributed deviates within the unit circle, and transforms them into two indepen..." alt="" coords="147,95,311,281"/>
+<area shape="rect" id="node5" title=" " alt="" coords="167,5,291,45"/>
+</map>

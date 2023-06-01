@@ -1,0 +1,4 @@
+<map id="BarController.OpenConfirmationDialogMedium" name="BarController.OpenConfirmationDialogMedium">
+<area shape="rect" id="node1" title="Opens confirmation dialog example" alt="" coords="196,5,399,45"/>
+<area shape="rect" id="node2" href="$classBarController.html#afbab9b6e60b1ddd55e49e36bb1870e72" title="Reset the noise index to 0 if it go beyond size of the noise values. This means it will start with be..." alt="" coords="5,13,148,38"/>
+</map>

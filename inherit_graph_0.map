@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,153,117,179"/>
+<area shape="rect" id="node2" href="$classBaseNoiseClass.html" title=" " alt="" coords="203,55,322,80"/>
+<area shape="rect" id="node6" href="$classHandleKeyboard.html" title="Allow touch screen keyboard to enter noise related data." alt="" coords="204,104,321,129"/>
+<area shape="rect" id="node7" href="$classRemoveAllComponents.html" title="This will prevent multiple instances being created." alt="" coords="183,153,342,179"/>
+<area shape="rect" id="node8" href="$classSetNoise.html" title="This class is used to set noise pattern levels. When user press a button, it will change the pattern." alt="" coords="225,203,301,228"/>
+<area shape="rect" id="node9" href="$classSingletonMonobehaviour.html" title="Abstract class that inherited by all the game managers. All the game managers use singleton since gam..." alt="" coords="165,252,360,277"/>
+<area shape="rect" id="node3" href="$classISONoise.html" title="Apply a constant speed for the whole walk cycle." alt="" coords="413,5,492,31"/>
+<area shape="rect" id="node4" href="$classPinkNoise.html" title=" " alt="" coords="411,55,494,80"/>
+<area shape="rect" id="node5" href="$classWhiteNoise.html" title="Calculate the Random Noise" alt="" coords="408,104,497,129"/>
+</map>
