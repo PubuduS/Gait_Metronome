@@ -92,13 +92,13 @@ public class BarController : SingletonMonobehaviour<BarController>
         float noiseValue = m_DefaultAnimationSpeed;
         float desiredSpeed = m_DefaultAnimationSpeed;
 
-        if( String.Equals( m_NoiseLbl.text, "Noise: Pink") || ( String.Equals( m_NoiseLbl.text, "Noise: Random") ) )
-        {            
-            noiseValue = Mathf.Abs( NoiseController.Instance.BaseNoise.NoiseValueList[m_NoiseIndex] );
-        }
-        else if( String.Equals( m_NoiseLbl.text, "Noise: ISO") )
+        if( String.Equals( m_NoiseLbl.text, "Noise: Pink") || ( String.Equals( m_NoiseLbl.text, "Noise: Random") ) ||
+          ( String.Equals( m_NoiseLbl.text, "Noise: ISO" ) ) )
         {
-            noiseValue = Mathf.Abs( NoiseController.Instance.BaseNoise.PreferredWalkingSpeed );
+            if( m_NoiseIndex < NoiseController.Instance.BaseNoise.NoiseValueList.Count )
+            {
+                noiseValue = Mathf.Abs( NoiseController.Instance.BaseNoise.NoiseValueList[m_NoiseIndex] );
+            }            
         }
         else
         {
@@ -137,7 +137,7 @@ public class BarController : SingletonMonobehaviour<BarController>
     {
         m_IsAnimationLocked = false;
 
-        if( !String.Equals( m_NoiseLbl, "ISO" ) && ( m_IsAnimationLocked == false) && NoiseController.Instance.BaseNoise.NoiseAppliedFlag )
+        if( ( m_IsAnimationLocked == false) && NoiseController.Instance.BaseNoise.NoiseAppliedFlag )
         {            
             m_NoiseIndex++;            
         }
@@ -159,7 +159,7 @@ public class BarController : SingletonMonobehaviour<BarController>
     /// </summary>
     public void OpenConfirmationDialogMedium()
     {
-        Dialog.Open( m_DialogPrefabMedium, DialogButtonType.OK, "Confirmation Dialog, Medium, Near", "Times up! " +
+        Dialog.Open( m_DialogPrefabMedium, DialogButtonType.OK, "Good JOb!", "Times up! " +
                      "You covered the required distance.", true);
     }
 }
